@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.0">
+    <TriggerPackage/>
+    <TimerPackage/>
+    <AliasPackage>
+        <AliasGroup isActive="yes" isFolder="yes">
+            <name>run-lua-code-v4</name>
+            <script></script>
+            <command></command>
+            <packageName>run-lua-code-v4</packageName>
+            <regex></regex>
+            <Alias isActive="yes" isFolder="no">
+                <name>run lua code</name>
+                <script>local f,e = loadstring(&quot;return &quot;..matches[2])
+if not f then
+	f,e = assert(loadstring(matches[2]))
+end
+
+local r = f()
+if r ~= nil then display(r) end</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^lua (.*)$</regex>
+            </Alias>
+        </AliasGroup>
+        <Alias isActive="yes" isFolder="no">
+            <name>init</name>
+            <script>init()</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^init$</regex>
+        </Alias>
+        <AliasGroup isActive="yes" isFolder="yes">
+            <name>dmap</name>
+            <script></script>
+            <command></command>
+            <packageName></packageName>
+            <regex></regex>
+            <Alias isActive="yes" isFolder="no">
+                <name>Map Init</name>
+                <script>
+if not system_init then
+  init()
+end
+
+init_map()
+send(&quot;look&quot;, false)
+daagar.log:info(&quot;Initalized Mapper&quot;)</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^dminit$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>Reset Zone</name>
+                <script>daagar.map:resetZone(matches[2])
+daagar.map.current_room = nil
+daagar.map.prior_room = nil
+</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^dmreset (.*)$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>dmzones</name>
+                <script>display(getAreaTable())</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^dmzones$</regex>
+            </Alias>
+        </AliasGroup>
+    </AliasPackage>
+    <ActionPackage/>
+    <ScriptPackage>
+        <Script isActive="yes" isFolder="no">
+            <name>init</name>
+            <packageName></packageName>
+            <script>function init()
+  daagar = daagar or {}
+  daagar.log = daagar.log or {}
+
+  dofile(getMudletHomeDir()..&quot;/scripts/daaglog/logger.lua&quot;)
+  daagar.log.enableDebug = true
+  daagar.command = nil
+
+  system_init = true
+  daagar.log:info(&quot;Scripts initialized&quot;)
+end</script>
+            <eventHandlerList/>
+        </Script>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>dmap</name>
+            <packageName></packageName>
+            <script>mudlet = mudlet or {}
+mudlet.mapper_script = true
+</script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>init_map</name>
+                <packageName></packageName>
+                <script>function init_map()
+
+  daagar = daagar or {}
+  daagar.map = daagar.map or {}
+
+  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/gmcp_room.lua&quot;)
+  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/exits.lua&quot;)
+  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/rooms.lua&quot;)
+  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/zones.lua&quot;)
+  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/continents.lua&quot;)
+
+  daagar.map.current_zone = nil
+  daagar.map.current_room = nil
+  daagar.map.prior_room = nil
+  daagar.map.prior_room_data = {}
+  daagar.map.seen_room = nil
+  daagar.map.fake_room_id = 9999
+
+  daagar.map:createFakeZone()
+
+  setCustomEnvColor(999, unpack(color_table.blue))
+  
+
+end</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>onRoom</name>
+                <packageName></packageName>
+                <script>function onRoom()
+  daagar.map:parseGmcpRoom()
+  --daagar.map.prior_room_data = gmcp.room
+end</script>
+                <eventHandlerList>
+                    <string>gmcp.room</string>
+                </eventHandlerList>
+            </Script>
+        </ScriptGroup>
+        <Script isActive="yes" isFolder="no">
+            <name>onSysDataSendRequest</name>
+            <packageName></packageName>
+            <script>function onSysDataSendRequest(event, args)
+  daagar.command = args
+end
+
+
+</script>
+            <eventHandlerList>
+                <string>sysDataSendRequest</string>
+            </eventHandlerList>
+        </Script>
+    </ScriptPackage>
+    <KeyPackage>
+        <KeyGroup isActive="yes" isFolder="yes">
+            <name>dmap</name>
+            <packageName></packageName>
+            <script></script>
+            <command></command>
+            <keyCode>-1</keyCode>
+            <keyModifier>-1</keyModifier>
+            <Key isActive="yes" isFolder="no">
+                <name>North</name>
+                <packageName></packageName>
+                <script></script>
+                <command>n</command>
+                <keyCode>56</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>South</name>
+                <packageName></packageName>
+                <script></script>
+                <command>s</command>
+                <keyCode>50</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>East</name>
+                <packageName></packageName>
+                <script></script>
+                <command>e</command>
+                <keyCode>54</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>West</name>
+                <packageName></packageName>
+                <script></script>
+                <command>w</command>
+                <keyCode>52</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Northeast</name>
+                <packageName></packageName>
+                <script></script>
+                <command>ne</command>
+                <keyCode>57</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Northwest</name>
+                <packageName></packageName>
+                <script></script>
+                <command>nw</command>
+                <keyCode>55</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Southeast</name>
+                <packageName></packageName>
+                <script></script>
+                <command>se</command>
+                <keyCode>51</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Southwest</name>
+                <packageName></packageName>
+                <script></script>
+                <command>sw</command>
+                <keyCode>49</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Up</name>
+                <packageName></packageName>
+                <script></script>
+                <command>u</command>
+                <keyCode>45</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Down</name>
+                <packageName></packageName>
+                <script></script>
+                <command>d</command>
+                <keyCode>43</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+            <Key isActive="yes" isFolder="no">
+                <name>Look</name>
+                <packageName></packageName>
+                <script></script>
+                <command>l</command>
+                <keyCode>53</keyCode>
+                <keyModifier>536870912</keyModifier>
+            </Key>
+        </KeyGroup>
+    </KeyPackage>
+</MudletPackage>
