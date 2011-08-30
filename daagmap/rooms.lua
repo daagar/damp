@@ -9,11 +9,10 @@ function daagar.map:createTempRoom(room_id, direction)
   setRoomEnv(room_id, 999)
 end
 
-function daagar.map:createRoom(room_data)
-  
-  local room_id = room_data.info.num
+function daagar.map:createRoom()
+  local room_id = gmcp.room.info.num
   local isCreated = false
-  local found_zone, zone_id = daagar.map:isKnownZone(room_data.info.zone)
+  local found_zone, zone_id = daagar.map:isKnownZone(gmcp.room.info.zone)
   
   if not found_zone then
     daagar.log:error("Unknown zone! Can't create room in an unknown zone")
@@ -27,8 +26,15 @@ function daagar.map:createRoom(room_data)
   end
 
   isCreated = addRoom(room_id)
-  setRoomName(room_id, room_data.info.name)
+  setRoomName(room_id, gmcp.room.info.name)
   setRoomArea(room_id, zone_id)
+
+  display(gmcp.room.info.terrain)
+  display(daagar.map.terrain[gmcp.room.info.terrain])
+  local terrain_id = daagar.map.terrain[gmcp.room.info.terrain]
+  if terrain_id then
+    setRoomEnv(room_id, terrain_id)
+  end
 
   -- If there is no prior room, then this is the first room of the map
   if not daagar.map.prior_room then
@@ -41,7 +47,7 @@ function daagar.map:createRoom(room_data)
     local x,y,z = daagar.map:getNewCoords(daagar.command)
 
     local rooms_at_location = getRoomsByPosition(zone_id, x, y, z)
-    display(rooms_at_location)
+    --display(rooms_at_location)
     if table.size(rooms_at_location) > 0 then 
       daagar.log:debug("Found colliding rooms... moving")
       daagar.map:moveCollidingRooms(zone_id, x, y, z) 
@@ -52,7 +58,7 @@ function daagar.map:createRoom(room_data)
   end
 
   daagar.map.current_room = room_id
-  daagar.map:connectExits(room_data)
+  daagar.map:connectExits(gmcp.room)
   centerview(room_id)
   daagar.log:debug("Created new room")
  
@@ -62,10 +68,16 @@ function daagar.map:createRoom(room_data)
 end
 
 function daagar.map:getNewCoords(command)
-
+  
   if not command then
     daagar.log:error("No direction has been sent - can't find new coords")
     return
+  end
+  
+  -- Continents are mapped in the 4th coordinate x,y system
+  if gmcp.room.info.coord.cont == 1 then
+    daagar.log:debug("Continent room: hardcoding coords")
+    return tonumber(gmcp.room.info.coord.x), tonumber(gmcp.room.info.coord.y)*-1, 0
   end
 
   if daagar.map:isCardinalExit(command) then

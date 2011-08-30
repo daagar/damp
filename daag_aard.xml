@@ -103,11 +103,15 @@ mudlet.mapper_script = true
   daagar = daagar or {}
   daagar.map = daagar.map or {}
 
+  sendGMCP(&quot;rawcolor on&quot;)
+  sendGMCP(&quot;request sectors&quot;)
+
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/gmcp_room.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/exits.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/rooms.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/zones.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/continents.lua&quot;)
+  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/sectors.lua&quot;)
 
   daagar.map.current_zone = nil
   daagar.map.current_room = nil
@@ -115,6 +119,9 @@ mudlet.mapper_script = true
   daagar.map.prior_room_data = {}
   daagar.map.seen_room = nil
   daagar.map.fake_room_id = 9999
+  daagar.map.terrain = {}
+   
+  daagar.map:setCustomColors()
 
   daagar.map:createFakeZone()
 

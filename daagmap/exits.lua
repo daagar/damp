@@ -25,6 +25,7 @@ end
 
 function daagar.map:connectExits(room_data)
 --  display(room_data)
+
   local exits = room_data.info.exits
   local room_id = room_data.info.num
   
@@ -40,4 +41,5 @@ function daagar.map:connectExits(room_data)
   end
   
 end
+
 
