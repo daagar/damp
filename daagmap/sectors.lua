@@ -2,8 +2,10 @@ function daagar.map:setCustomColors()
 
   daagar.log:debug("Setting color environment")
 
+  -- Must remap mud-specified IDs to be in non-ANSI ranges (0-15),
+  -- otherwise colors won't function correctly
   for k,v in pairs(gmcp.room.sectors.sectors) do
-    daagar.map.terrain[v.name] = v.id
+    daagar.map.terrain[v.name] = v.id+16
   end
 
   --display(daagar.map.terrain)
@@ -25,14 +27,14 @@ function daagar.map:setCustomColors()
   setCustomEnvColor(daagar.map.terrain["city"], unpack(color_table.LightCoral))
   setCustomEnvColor(daagar.map.terrain["unused"], unpack(color_table.slate_grey))
   setCustomEnvColor(daagar.map.terrain["Mudschool"], unpack(color_table.maroon))
-  setCustomEnvColor(daagar.map.terrain["areaexit"], unpack(color_table.a_darkgrey))
+  setCustomEnvColor(daagar.map.terrain["areaexit"], unpack(color_table.dim_gray))
   setCustomEnvColor(daagar.map.terrain["castle"], unpack(color_table.plum))
   setCustomEnvColor(daagar.map.terrain["pillar"], unpack(color_table.light_pink))
   setCustomEnvColor(daagar.map.terrain["temple"], unpack(color_table.medium_purple))
   setCustomEnvColor(daagar.map.terrain["shop"], unpack(color_table.orange))
   setCustomEnvColor(daagar.map.terrain["clanexit"], unpack(color_table.red))
   setCustomEnvColor(daagar.map.terrain["chessblack"], unpack(color_table.dim_gray))
-  setCustomEnvColor(daagar.map.terrain["chesswhite"], unpack(color_table.a_white))
+  setCustomEnvColor(daagar.map.terrain["chesswhite"], unpack(color_table.white))
   setCustomEnvColor(daagar.map.terrain["lottery"], unpack(color_table.yellow_green))
   setCustomEnvColor(daagar.map.terrain["alley"], unpack(color_table.yellow))
   setCustomEnvColor(daagar.map.terrain["office"], unpack(color_table.linen))
@@ -49,7 +51,7 @@ function daagar.map:setCustomColors()
   setCustomEnvColor(daagar.map.terrain["hallway"], unpack(color_table.slate_grey))
   setCustomEnvColor(daagar.map.terrain["stairs"], unpack(color_table.dim_gray))
   setCustomEnvColor(daagar.map.terrain["aylorcity"], unpack(color_table.magenta))
-  setCustomEnvColor(daagar.map.terrain["ruins"], unpack(color_table.a_darkcyan))
+  setCustomEnvColor(daagar.map.terrain["ruins"], unpack(color_table.aquamarine))
 
   setCustomEnvColor(daagar.map.terrain["graveyard"], unpack(color_table.LightGrey))
   setCustomEnvColor(daagar.map.terrain["crypt"], unpack(color_table.LightSlateGrey))
@@ -73,16 +75,17 @@ function daagar.map:setCustomColors()
   setCustomEnvColor(daagar.map.terrain["rainbow"], unpack(color_table.DeepPink))
 
   -- Outdoors --
+
+  setCustomEnvColor(daagar.map.terrain["plain"], unpack(color_table.papaya_whip))
   setCustomEnvColor(daagar.map.terrain["field"], unpack(color_table.green_yellow))
   setCustomEnvColor(daagar.map.terrain["field2"], unpack(color_table.LawnGreen))
   setCustomEnvColor(daagar.map.terrain["field3"], unpack(color_table.yellow_green))
   setCustomEnvColor(daagar.map.terrain["field4"], unpack(color_table.green))
-  setCustomEnvColor(daagar.map.terrain["dead_field"], unpack(color_table.deep_sea_green)
+  setCustomEnvColor(daagar.map.terrain["dead_field"], unpack(color_table.dark_sea_green))
   setCustomEnvColor(daagar.map.terrain["ashen_field"], unpack(color_table.bisque))
-  setCustomEnvColor(daagar.map.terrain["forest"], unpack(color_table.dark_green))
+  setCustomEnvColor(daagar.map.terrain["forest"], unpack(color_table.ForestGreen))
   setCustomEnvColor(daagar.map.terrain["dead_forest"], unpack(color_table.OliveDrab))
   setCustomEnvColor(daagar.map.terrain["hills"], unpack(color_table.MediumSpringGreen))
-  setCustomEnvColor(daagar.map.terrain["plain"], unpack(color_table.papaya_whip))
   setCustomEnvColor(daagar.map.terrain["mountain"], unpack(color_table.RosyBrown))
   setCustomEnvColor(daagar.map.terrain["mountain_cyan"], unpack(color_table.thistle))
   setCustomEnvColor(daagar.map.terrain["desert"], unpack(color_table.moccasin))
@@ -117,7 +120,7 @@ function daagar.map:setCustomColors()
   setCustomEnvColor(daagar.map.terrain["underwater"], unpack(color_table.NavyBlue))
   setCustomEnvColor(daagar.map.terrain["river"], unpack(color_table.medium_aquamarine))
   setCustomEnvColor(daagar.map.terrain["afountain"], unpack(color_table.cornflower_blue))
-  setCustomEnvColor(daagar.map.terrain["fountain"], unpack(color_table.cornflower_blue)
+  setCustomEnvColor(daagar.map.terrain["fountain"], unpack(color_table.cornflower_blue))
   setCustomEnvColor(daagar.map.terrain["chaos_sea"], unpack(color_table.purple))
 
   -- Library --
@@ -135,9 +138,9 @@ function daagar.map:setCustomColors()
   setCustomEnvColor(daagar.map.terrain["hell4"], unpack(color_table.coral))
  
   -- Space --
-  setCustomEnvColor(daagar.map.terrain["space1"], unpack(color_table.light_grey ))
+  setCustomEnvColor(daagar.map.terrain["space1"], unpack(color_table.light_grey))
   setCustomEnvColor(daagar.map.terrain["space2"], unpack(color_table.gray))
-  setCustomEnvColor(daagar.map.terrain["space3"], unpack(color_table.a_darkgrey))
+  setCustomEnvColor(daagar.map.terrain["space3"], unpack(color_table.dim_gray))
   setCustomEnvColor(daagar.map.terrain["space4"], unpack(color_table.dark_slate_grey))
 
 end
