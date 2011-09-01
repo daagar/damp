@@ -9,11 +9,21 @@ function daagar.map:createTempRoom(room_id, direction)
   setRoomEnv(room_id, 999)
 end
 
+-- Rawcolor functionality leaves ANSI identifiers in many room names.
+-- We don't want those, so strip them out.
+-- Example: @WMy Colorful Roomname@g
+function stripRoomName(room_name)
+  local new_name = string.gsub(room_name, "@%a", "")
+  daagar.log:debug("Cleaned room name: "..new_name)
+  return new_name
+end
+
 function daagar.map:createRoom()
   local room_id = gmcp.room.info.num
   local isCreated = false
   local found_zone, zone_id = daagar.map:isKnownZone(gmcp.room.info.zone)
-  
+  local room_name = stripRoomName(gmcp.room.info.name)
+
   if not found_zone then
     daagar.log:error("Unknown zone! Can't create room in an unknown zone")
     return
@@ -26,11 +36,9 @@ function daagar.map:createRoom()
   end
 
   isCreated = addRoom(room_id)
-  setRoomName(room_id, gmcp.room.info.name)
+  setRoomName(room_id, room_name)
   setRoomArea(room_id, zone_id)
 
-  display(gmcp.room.info.terrain)
-  display(daagar.map.terrain[gmcp.room.info.terrain])
   local terrain_id = daagar.map.terrain[gmcp.room.info.terrain]
   if terrain_id then
     setRoomEnv(room_id, terrain_id)
@@ -38,9 +46,13 @@ function daagar.map:createRoom()
 
   -- If there is no prior room, then this is the first room of the map
   if not daagar.map.prior_room then
-    setRoomCoordinates(room_id, 0, 0, 0)
+    if gmcp.room.info.coord.cont == 1 then
+      setRoomCoordinates(room_id, gmcp.room.info.coord.x, gmcp.room.info.coord.y*-1, 0)
+    else
+      setRoomCoordinates(room_id, 0, 0, 0)
+    end
     daagar.map.prior_room = room_id
-    daagar.log:debug("Created first map room at 0,0,0 for id "..room_id)
+    daagar.log:debug("Created first map room for id "..room_id)
   else
     daagar.map.prior_room = daagar.map.current_room
     daagar.log:debug("Attempting to find coords for new room")
@@ -78,6 +90,11 @@ function daagar.map:getNewCoords(command)
   if gmcp.room.info.coord.cont == 1 then
     daagar.log:debug("Continent room: hardcoding coords")
     return tonumber(gmcp.room.info.coord.x), tonumber(gmcp.room.info.coord.y)*-1, 0
+  end
+
+  if gmcp.room.info.zone ~= daagar.map.prior_zone_name then
+    daagar.log:debug("Changed zone, using prior room location as new coords")
+    return 0,0,0 
   end
 
   if daagar.map:isCardinalExit(command) then

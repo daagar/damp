@@ -22,6 +22,7 @@ function daagar.map:parseGmcpRoom()
   daagar.map.prior_room = daagar.map.current_room
 
   if daagar.map.seen_room == -1 then
+    -- Eventually needs to work to map "nomap" areas...
     daagar.log:debug("Can't find room based on mud id - none given")
   elseif roomExists(daagar.map.seen_room) then
     if getRoomEnv(daagar.map.seen_room) == 999 then
@@ -31,7 +32,6 @@ function daagar.map:parseGmcpRoom()
       daagar.map:connectExits(daagar.map.prior_room_data) -- Relink missing exits
     else
       daagar.log:debug("Found existing room - moving there")
-      --daagar.map:connectExits()
       daagar.map.current_room = daagar.map.seen_room
       centerview(daagar.map.seen_room)
     end
@@ -41,6 +41,7 @@ function daagar.map:parseGmcpRoom()
     daagar.map:createRoom()
   end
   daagar.map.prior_room_data = table.copy(gmcp.room)
+  daagar.map.prior_zone_name = zone_name
 end
 
 function table.copy(t)
