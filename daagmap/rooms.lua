@@ -1,13 +1,4 @@
 
-function daagar.map:createTempRoom(room_id, direction)
-  local found_zone, zone_id = daagar.map:isKnownZone("fake_zone")
-  addRoom(room_id)
-  setRoomName(room_id, "Unexplored Room")
-  setRoomArea(room_id, zone_id)
-  local x, y, z = daagar.map:getNewCoords(direction)
-  setRoomCoordinates(room_id, x, y, z)
-  setRoomEnv(room_id, 999)
-end
 
 -- Rawcolor functionality leaves ANSI identifiers in many room names.
 -- We don't want those, so strip them out.
