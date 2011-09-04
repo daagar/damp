@@ -33,6 +33,7 @@ function daagar.map:parseGmcpRoom()
     else
       daagar.log:debug("Found existing room - moving there")
       daagar.map.current_room = daagar.map.seen_room
+      daagar.map:connectSpecialExits()
       centerview(daagar.map.seen_room)
     end
   else

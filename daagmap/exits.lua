@@ -42,4 +42,18 @@ function daagar.map:connectExits(room_data)
   
 end
 
+function daagar.map:connectSpecialExits()
+  if not daagar.map:isCardinalExit(daagar.command) 
+    and daagar.command ~= "l" 
+    and daagar.command ~= "look" then
+    daagar.log:debug("Saw special exit command, linking to prior room")
+
+    local special_exits = getSpecialExits(gmcp.room.info.num)
+    if not table.contains(special_exits, daagar.command) then
+      addSpecialExit(daagar.map.prior_room, gmcp.room.info.num, daagar.command)
+    end
+  end
+
+end
+
 

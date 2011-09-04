@@ -71,6 +71,7 @@ function daagar.map:createRoom()
 
   daagar.map.current_room = room_id
   daagar.map:connectExits(gmcp.room)
+  daagar.map:connectSpecialExits()
   centerview(room_id)
   daagar.log:debug("Created new room")
  
@@ -82,7 +83,7 @@ end
 function daagar.map:getNewCoords(command)
   
   if not command then
-    daagar.log:error("No direction has been sent - can't find new coords")
+    daagar.log:error("No command has been sent - can't find new coords")
     return
   end
   
@@ -93,7 +94,7 @@ function daagar.map:getNewCoords(command)
   end
 
   if gmcp.room.info.zone ~= daagar.map.prior_zone_name then
-    daagar.log:debug("Changed zone, using prior room location as new coords")
+    daagar.log:debug("Changed zone, centering map at 0,0,0")
     return 0,0,0 
   end
 

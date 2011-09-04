@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE MudletPackage>
 <MudletPackage version="1.0">
-    <TriggerPackage/>
+    <TriggerPackage>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>dmap</name>
+            <script></script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList/>
+            <regexCodePropertyList/>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>Check for 'other' exits</name>
+                <script>
+setRoomChar(gmcp.room.info.num, &quot;&gt;&quot;)</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^\[ Exits: .*other.* \]$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+        </TriggerGroup>
+    </TriggerPackage>
     <TimerPackage/>
     <AliasPackage>
         <AliasGroup isActive="yes" isFolder="yes">
@@ -105,13 +143,13 @@ mudlet.mapper_script = true
 
   sendGMCP(&quot;rawcolor on&quot;)
   sendGMCP(&quot;request sectors&quot;)
-
+  
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/gmcp_room.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/exits.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/rooms.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/zones.lua&quot;)
   dofile(getMudletHomeDir()..&quot;/scripts/daagmap/continents.lua&quot;)
-  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/sectors.lua&quot;)
+  tempTimer(2,[[dofile(getMudletHomeDir()..&quot;/scripts/daagmap/sectors.lua&quot;)]])
 
   daagar.map.current_zone = nil
   daagar.map.current_room = nil
@@ -121,7 +159,7 @@ mudlet.mapper_script = true
   daagar.map.fake_room_id = 9999
   daagar.map.terrain = {}
    
-  daagar.map:setCustomColors()
+  tempTimer(2,[[daagar.map:setCustomColors()]])
 
   daagar.map:createFakeZone()
 
