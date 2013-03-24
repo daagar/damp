@@ -42,26 +42,6 @@ setRoomChar(gmcp.room.info.num, &quot;&gt;&quot;)</script>
     </TriggerPackage>
     <TimerPackage/>
     <AliasPackage>
-        <AliasGroup isActive="yes" isFolder="yes">
-            <name>run-lua-code-v4</name>
-            <script></script>
-            <command></command>
-            <packageName>run-lua-code-v4</packageName>
-            <regex></regex>
-            <Alias isActive="yes" isFolder="no">
-                <name>run lua code</name>
-                <script>local f,e = loadstring(&quot;return &quot;..matches[2])
-if not f then
-	f,e = assert(loadstring(matches[2]))
-end
-
-local r = f()
-if r ~= nil then display(r) end</script>
-                <command></command>
-                <packageName></packageName>
-                <regex>^lua (.*)$</regex>
-            </Alias>
-        </AliasGroup>
         <Alias isActive="yes" isFolder="no">
             <name>init</name>
             <script>init()</script>
@@ -106,6 +86,26 @@ daagar.map.prior_room = nil
                 <packageName></packageName>
                 <regex>^dmzones$</regex>
             </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>add door</name>
+                <script>local status
+if (matches[3] == &quot;open&quot;) then status = 1
+elseif (matches[3] == &quot;closed&quot;) then status = 2
+elseif (matches[3] == &quot;locked&quot;) then status = 3
+else status = matches[3]
+end
+setDoor(daagar.map.current_room, matches[2], status)</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^](.?) (\w+)$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>remove door</name>
+                <script>setDoor(daagar.map.current_room, matches[2], 0)</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^\[(.?)$</regex>
+            </Alias>
         </AliasGroup>
     </AliasPackage>
     <ActionPackage/>
@@ -114,10 +114,14 @@ daagar.map.prior_room = nil
             <name>init</name>
             <packageName></packageName>
             <script>function init()
+
   daagar = daagar or {}
   daagar.log = daagar.log or {}
+  script_path = &quot;d:/dev/github/damp&quot;
 
-  dofile(getMudletHomeDir()..&quot;/scripts/daaglog/logger.lua&quot;)
+
+  --dofile(getMudletHomeDir()..&quot;/scripts/daaglog/logger.lua&quot;)
+  dofile(script_path..&quot;/daaglog/logger.lua&quot;)
   daagar.log.enableDebug = true
   daagar.command = nil
 
@@ -140,30 +144,31 @@ mudlet.mapper_script = true
 
   daagar = daagar or {}
   daagar.map = daagar.map or {}
+  
 
   sendGMCP(&quot;rawcolor on&quot;)
   sendGMCP(&quot;request sectors&quot;)
   
-  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/gmcp_room.lua&quot;)
-  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/exits.lua&quot;)
-  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/rooms.lua&quot;)
-  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/zones.lua&quot;)
-  dofile(getMudletHomeDir()..&quot;/scripts/daagmap/continents.lua&quot;)
-  tempTimer(2,[[dofile(getMudletHomeDir()..&quot;/scripts/daagmap/sectors.lua&quot;)]])
+  dofile(script_path..&quot;/daagmap/gmcp_room.lua&quot;)
+  dofile(script_path..&quot;/daagmap/exits.lua&quot;)
+  dofile(script_path..&quot;/daagmap/rooms.lua&quot;)
+  dofile(script_path..&quot;/daagmap/zones.lua&quot;)
+  dofile(script_path..&quot;/daagmap/continents.lua&quot;)
+  tempTimer(2,[[dofile(script_path..&quot;/daagmap/sectors.lua&quot;)]])
 
   daagar.map.current_zone = nil
   daagar.map.current_room = nil
   daagar.map.prior_room = nil
   daagar.map.prior_room_data = {}
   daagar.map.seen_room = nil
-  daagar.map.fake_room_id = 9999
+  --daagar.map.fake_room_id = 9999
   daagar.map.terrain = {}
    
   tempTimer(2,[[daagar.map:setCustomColors()]])
 
-  daagar.map:createFakeZone()
+  --daagar.map:createFakeZone()
 
-  setCustomEnvColor(999, unpack(color_table.blue))
+  --setCustomEnvColor(999, unpack(color_table.blue))
   
 
 end</script>
@@ -293,4 +298,7 @@ end
             </Key>
         </KeyGroup>
     </KeyPackage>
+    <HelpPackage>
+        <helpURL></helpURL>
+    </HelpPackage>
 </MudletPackage>

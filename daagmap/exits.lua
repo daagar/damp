@@ -11,12 +11,9 @@ function daagar.map:getExitNum(dir)
     daagar.log:error("Can't get an exit number for a non-cardinal direction!")
     return
   end
-echo("Before getShortExit")
   local exit = daagar.map:getShortExit(dir)
-  display(exit)
   for k,v in pairs(daagar.CARDINAL_EXITS_SHORT) do
     if exit == v then
-      display(k)
       return k
     end
   end
@@ -43,21 +40,16 @@ function daagar.map:getShortExit(command)
 end
 
 function daagar.map:connectExits(room_data)
---  display(room_data)
-display("In connectExits()")
   local exits = room_data.info.exits
   local room_id = room_data.info.num
   
   for direction, room in pairs(exits) do
-    echo("Direction: ".. direction .." Room: "..room)
     local dir_num = daagar.map:getExitNum(direction)
     if roomExists(room) then
       daagar.log:debug("The room exists, connecting stubs")
       --setExit(room_id, room, direction)
-      setExitStub(room_id, dir_num, 1)
+      setExitStub(room_id, dir_num, true)
       connectExitStub(room_id, dir_num)
-echo("did connectExitStub")
-      echo("Dir_num: "..dir_num)
       local stubs = getExitStubs(room_id)
 --      if stubs and table.contains(stubs, dir_num) then
 --        daagar.log:debug("Removing stub in dir "..dir_num)
@@ -65,9 +57,8 @@ echo("did connectExitStub")
 --      end
     else
       daagar.log:debug("Unexplored exit, creating stub")
-      display(dir_num)
       daagar.log:debug("Setting stub in direction "..dir_num)
-      setExitStub(room_id, dir_num, 1) 
+      setExitStub(room_id, dir_num, true) 
     end
   end
   daagar.log:debug("Leaving connectExits()") 
@@ -76,7 +67,8 @@ end
 function daagar.map:connectSpecialExits()
   if not daagar.map:isCardinalExit(daagar.command) 
     and daagar.command ~= "l" 
-    and daagar.command ~= "look" then
+    and daagar.command ~= "look" 
+    and daagar.command ~= "recall" then
     daagar.log:debug("Saw special exit command, linking to prior room")
 
     local special_exits = getSpecialExits(gmcp.room.info.num)

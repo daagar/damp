@@ -31,6 +31,7 @@ function daagar.map:createRoom()
   setRoomArea(room_id, zone_id)
 
   local terrain_id = daagar.map.terrain[gmcp.room.info.terrain]
+  daagar.log:debug("Setting terrain as "..terrain_id)
   if terrain_id then
     setRoomEnv(room_id, terrain_id)
   end
