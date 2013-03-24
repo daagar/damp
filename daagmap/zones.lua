@@ -1,12 +1,5 @@
 -- Handles all zone related functions
 
-function daagar.map:createFakeZone()
-
-  if not daagar.map:isKnownZone("fake_zone") then
-    daagar.map:createZone("fake_zone")
-  end
-  daagar.log:debug("Created fake zone for storing unmapped exits")
-end
 
 function daagar.map:resetZone(zone_name)
   local zone_found, zone_id = daagar.map:isKnownZone(zone_name)

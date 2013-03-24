@@ -26,10 +26,10 @@ function daagar.map:parseGmcpRoom()
     daagar.log:debug("Can't find room based on mud id - none given")
   elseif roomExists(daagar.map.seen_room) then
     if getRoomEnv(daagar.map.seen_room) == 999 then
-      daagar.log:debug("Existing room is a temp room - recreating")
-      deleteRoom(daagar.map.seen_room)  -- Causes exits to get delinked!
-      daagar.map:createRoom()
-      daagar.map:connectExits(daagar.map.prior_room_data) -- Relink missing exits
+--      daagar.log:debug("Existing room is a temp room - recreating")
+--      deleteRoom(daagar.map.seen_room)  -- Causes exits to get delinked!
+--      daagar.map:createRoom()
+--      daagar.map:connectExits(daagar.map.prior_room_data) -- Relink missing exits
     else
       daagar.log:debug("Found existing room - moving there")
       daagar.map.current_room = daagar.map.seen_room
