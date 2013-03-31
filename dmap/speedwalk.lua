@@ -1,10 +1,10 @@
 function doSpeedWalk()
 
   if #speedWalkPath == 0 then
-    daagar.log:error("No speedwalk path found!")
+    damp.log:error("No speedwalk path found!")
   end
 
-  local exits = daagar.map:getAllExits(daagar.map.current_room)
+  local exits = damp.map:getAllExits(damp.map.current_room)
   local path = {}
 
   for i, room_id in pairs(speedWalkPath) do
@@ -14,7 +14,7 @@ function doSpeedWalk()
         break
       end
     end
-    exits = daagar.map:getAllExits(room_id)
+    exits = damp.map:getAllExits(room_id)
   end
 
   while path[1] do 
@@ -24,13 +24,13 @@ function doSpeedWalk()
   end
 end
 
-function daagar.map:getAllExits(room_id)
+function damp.map:getAllExits(room_id)
   local exits = getRoomExits(room_id)
   local sexits = getSpecialExitsSwap(room_id)
-  return daagar.map:concatTables(exits, sexits)
+  return damp.map:concatTables(exits, sexits)
 end
 
-function daagar.map:concatTables(table1, table2)
+function damp.map:concatTables(table1, table2)
   local output = {}
   for i,v in pairs(table1) do
     output[i] = v

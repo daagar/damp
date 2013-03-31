@@ -39,15 +39,238 @@ setRoomChar(gmcp.room.info.num, &quot;&gt;&quot;)</script>
                 </regexCodePropertyList>
             </Trigger>
         </TriggerGroup>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>chat</name>
+            <script></script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList/>
+            <regexCodePropertyList/>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>newbie</name>
+                <script>enableTrigger(&quot;blankline&quot;)
+selectString(matches[2],1)
+replace(&quot;&quot;)
+demonnic.chat:append(&quot;Newbie&quot;)
+deselect()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>1</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^(\{chan ch=newbie\})(.*)</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>auction</name>
+                <script>enableTrigger(&quot;blankline&quot;)
+selectString(matches[2],1)
+replace(&quot;&quot;)
+demonnic.chat:append(&quot;Auc&quot;)
+deselect()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^(\{chan ch=auction\})(.*)</string>
+                    <string>^(\{chan ch=barter\})(.*)</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>all</name>
+                <script>--showCaptureGroups()
+selectString(matches[2],1)
+replace(&quot;&quot;)
+--copy()
+chat:Append(&quot;Test&quot;)
+--deleteLine()
+deselect()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^(\{chan ch=.*\})(.*)</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>question</name>
+                <script>enableTrigger(&quot;blankline&quot;)
+selectString(matches[2],1)
+replace(&quot;&quot;)
+demonnic.chat:append(&quot;?&quot;)
+deselect()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^(\{chan ch=question\})(.*)</string>
+                    <string>^(\{chan ch=answer\})(.*)</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>blankline</name>
+                <script>disableTrigger(&quot;blankline&quot;)
+deleteLine()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>tech</name>
+                <script>enableTrigger(&quot;blankline&quot;)
+selectString(matches[2],1)
+replace(&quot;&quot;)
+demonnic.chat:append(&quot;Tech&quot;)
+deselect()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^(\{chan ch=tech\})(.*)</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+        </TriggerGroup>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>status</name>
+            <script></script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList/>
+            <regexCodePropertyList/>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>noexp_on</name>
+                <script>raiseEvent(&quot;noexp&quot;, 1)</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^You will no longer receive experience. Happy questing!$</string>
+                    <string>^You have set your character to receive no experience points!$</string>
+                    <string>&gt; \*\[NOEXP\]\*</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>noexp_off</name>
+                <script>raiseEvent(&quot;noexp&quot;, 0)</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^You will now receive experience. Happy leveling!$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+        </TriggerGroup>
     </TriggerPackage>
     <TimerPackage/>
     <AliasPackage>
         <Alias isActive="yes" isFolder="no">
-            <name>init</name>
+            <name>initialize damp</name>
             <script>init()</script>
             <command></command>
             <packageName></packageName>
-            <regex>^init$</regex>
+            <regex>^damp$</regex>
         </Alias>
         <AliasGroup isActive="yes" isFolder="yes">
             <name>dmap</name>
@@ -64,16 +287,16 @@ end
 
 init_map()
 send(&quot;look&quot;, false)
-daagar.log:info(&quot;Initalized Mapper&quot;)</script>
+damp.log:info(&quot;Initalized Mapper&quot;)</script>
                 <command></command>
                 <packageName></packageName>
-                <regex>^dminit$</regex>
+                <regex>^dmap$</regex>
             </Alias>
             <Alias isActive="yes" isFolder="no">
                 <name>Reset Zone</name>
-                <script>daagar.map:resetZone(matches[2])
-daagar.map.current_room = nil
-daagar.map.prior_room = nil
+                <script>damp.map:resetZone(matches[2])
+damp.map.current_room = nil
+damp.map.prior_room = nil
 </script>
                 <command></command>
                 <packageName></packageName>
@@ -94,17 +317,37 @@ elseif (matches[3] == &quot;closed&quot;) then status = 2
 elseif (matches[3] == &quot;locked&quot;) then status = 3
 else status = matches[3]
 end
-setDoor(daagar.map.current_room, matches[2], status)</script>
+setDoor(damp.map.current_room, matches[2], status)</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^](.?) (\w+)$</regex>
             </Alias>
             <Alias isActive="yes" isFolder="no">
                 <name>remove door</name>
-                <script>setDoor(daagar.map.current_room, matches[2], 0)</script>
+                <script>setDoor(damp.map.current_room, matches[2], 0)</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^\[(.?)$</regex>
+            </Alias>
+        </AliasGroup>
+        <AliasGroup isActive="yes" isFolder="yes">
+            <name>dgui</name>
+            <script></script>
+            <command></command>
+            <packageName></packageName>
+            <regex></regex>
+            <Alias isActive="yes" isFolder="no">
+                <name>GUI init</name>
+                <script>
+if not system_init then
+  init()
+end
+
+init_gui()
+</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^dgui$</regex>
             </Alias>
         </AliasGroup>
     </AliasPackage>
@@ -115,20 +358,36 @@ setDoor(daagar.map.current_room, matches[2], status)</script>
             <packageName></packageName>
             <script>function init()
 
-  daagar = daagar or {}
-  daagar.log = daagar.log or {}
+  damp = damp or {}
+  damp.log = damp.log or {}
+
+  -- Set this path to whereever you cloned/downloaded the scripts!
   script_path = &quot;d:/dev/github/damp&quot;
 
 
-  --dofile(getMudletHomeDir()..&quot;/scripts/daaglog/logger.lua&quot;)
-  dofile(script_path..&quot;/daaglog/logger.lua&quot;)
-  daagar.log.enableDebug = true
-  daagar.command = nil
+  -- Initialize logging. Note that debug mode is overly spammy when mapping!
+  dofile(script_path..&quot;/dlog/logger.lua&quot;)
+  damp.log.enableDebug = false
+  damp.command = nil
 
-  system_init = true
-  daagar.log:info(&quot;Scripts initialized&quot;)
+  damp.init = true
+  damp.log:info(&quot;Scripts initialized&quot;)
+
 end</script>
             <eventHandlerList/>
+        </Script>
+        <Script isActive="yes" isFolder="no">
+            <name>onSysDataSendRequest</name>
+            <packageName></packageName>
+            <script>function onSysDataSendRequest(event, args)
+  damp.command = args
+end
+
+
+</script>
+            <eventHandlerList>
+                <string>sysDataSendRequest</string>
+            </eventHandlerList>
         </Script>
         <ScriptGroup isActive="yes" isFolder="yes">
             <name>dmap</name>
@@ -142,35 +401,34 @@ mudlet.mapper_script = true
                 <packageName></packageName>
                 <script>function init_map()
 
-  daagar = daagar or {}
-  daagar.map = daagar.map or {}
-  
+  if not (damp.init) then
+		echo(&quot;Please run the 'init' command first!&quot;)
+ 		return
+  end
 
+  damp = damp or {}
+  damp.map = damp.map or {}
+  
   sendGMCP(&quot;rawcolor on&quot;)
   sendGMCP(&quot;request sectors&quot;)
   
-  dofile(script_path..&quot;/daagmap/gmcp_room.lua&quot;)
-  dofile(script_path..&quot;/daagmap/exits.lua&quot;)
-  dofile(script_path..&quot;/daagmap/rooms.lua&quot;)
-  dofile(script_path..&quot;/daagmap/zones.lua&quot;)
-  dofile(script_path..&quot;/daagmap/continents.lua&quot;)
-  tempTimer(2,[[dofile(script_path..&quot;/daagmap/sectors.lua&quot;)]])
+  dofile(script_path..&quot;/dmap/gmcp_room.lua&quot;)
+  dofile(script_path..&quot;/dmap/exits.lua&quot;)
+  dofile(script_path..&quot;/dmap/rooms.lua&quot;)
+  dofile(script_path..&quot;/dmap/zones.lua&quot;)
+  dofile(script_path..&quot;/dmap/continents.lua&quot;)
+  dofile(script_path..&quot;/dmap/speedwalk.lua&quot;)
+  tempTimer(2,[[dofile(script_path..&quot;/dmap/sectors.lua&quot;)]])
 
-  daagar.map.current_zone = nil
-  daagar.map.current_room = nil
-  daagar.map.prior_room = nil
-  daagar.map.prior_room_data = {}
-  daagar.map.seen_room = nil
-  --daagar.map.fake_room_id = 9999
-  daagar.map.terrain = {}
+  damp.map.current_zone = nil
+  damp.map.current_room = nil
+  damp.map.prior_room = nil
+  damp.map.prior_room_data = {}
+  damp.map.seen_room = nil
+  damp.map.terrain = {}
    
-  tempTimer(2,[[daagar.map:setCustomColors()]])
-
-  --daagar.map:createFakeZone()
-
-  --setCustomEnvColor(999, unpack(color_table.blue))
+  tempTimer(2,[[damp.map:setCustomColors()]])
   
-
 end</script>
                 <eventHandlerList/>
             </Script>
@@ -178,27 +436,338 @@ end</script>
                 <name>onRoom</name>
                 <packageName></packageName>
                 <script>function onRoom()
-  daagar.map:parseGmcpRoom()
-  --daagar.map.prior_room_data = gmcp.room
+  damp.map:parseGmcpRoom()
 end</script>
                 <eventHandlerList>
                     <string>gmcp.room</string>
                 </eventHandlerList>
             </Script>
         </ScriptGroup>
-        <Script isActive="yes" isFolder="no">
-            <name>onSysDataSendRequest</name>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>dgui</name>
             <packageName></packageName>
-            <script>function onSysDataSendRequest(event, args)
-  daagar.command = args
+            <script></script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>map</name>
+                <packageName></packageName>
+                <script>
+function damp.gui:drawMap()
+
+	damp.gui.main = Geyser.Container:new({x=0,y=0,width=&quot;100%&quot;,height=&quot;100%&quot;,name=&quot;mapper container&quot;})
+
+	damp.gui.mapper = Geyser.Mapper:new({
+  		name = &quot;mapper&quot;,
+  		x = &quot;70%&quot;, y = &quot;50%&quot;, -- edit here if you want to move it
+  		width = &quot;30%&quot;, height = &quot;50%&quot;
+	}, main)
+
+end</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>bars</name>
+                <packageName></packageName>
+                <script>function damp.gui:drawCharBars()
+
+damp.gui.bar_container = Geyser.Container:new({
+	name = &quot;bar_container&quot;,
+	x=0, y=-80,
+	width=&quot;25%&quot;, height=80,
+})
+
+damp.gui.bar_container2 = Geyser.Container:new({
+	name = &quot;bar_container&quot;,
+	x=&quot;26%&quot;, y=-80,
+	width=&quot;25%&quot;, height=80,
+})
+
+damp.gui.hp_bar = Geyser.Gauge:new({
+	name = &quot;hp_bar&quot;,
+	x=&quot;1%&quot;, y=5,
+	width=&quot;100%&quot;, height=15,
+},damp.gui.bar_container)
+
+damp.gui.hp_bar.front:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f04141, stop: 1 #cc0000);
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-radius: 2;
+    padding: 1px;]])
+damp.gui.hp_bar.back:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #666, stop: 1 #333);
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 2;
+    padding: 1px;
+]])
+
+damp.gui.mana_bar = Geyser.Gauge:new({
+	name = &quot;mana_bar&quot;,
+	x=&quot;1%&quot;, y=25,
+	width=&quot;100%&quot;, height=15,
+},damp.gui.bar_container)
+
+damp.gui.mana_bar.front:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #1ca1d0 , stop: 1 #04739c );
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-radius: 2;
+    padding: 1px;]])
+damp.gui.mana_bar.back:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #666, stop: 1 #333);
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 2;
+    padding: 1px;
+]])
+
+damp.gui.moves_bar = Geyser.Gauge:new({
+	name = &quot;moves_bar&quot;,
+	x=&quot;1%&quot;, y=45,
+	width=&quot;100%&quot;, height=15,
+},damp.gui.bar_container)
+
+damp.gui.moves_bar.front:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #22b026, stop: 1 #0a890d);
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-radius: 2;
+    padding: 1px;]])
+damp.gui.moves_bar.back:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #666,  stop: 1 #333);
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 2;
+    padding: 1px;
+]])
+
+damp.gui.enemy_bar = Geyser.Gauge:new({
+	name = &quot;enemy_bar&quot;,
+	x=&quot;1%&quot;, y=5,
+	width=&quot;100%&quot;, height=15,
+},damp.gui.bar_container2)
+
+damp.gui.enemy_bar.front:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f04141, stop: 1 #cc0000);
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-radius: 2;
+    padding: 1px;]])
+damp.gui.enemy_bar.back:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #666, stop: 1 #333);
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 2;
+    padding: 1px;
+]])
+
+damp.gui.tnl_bar = Geyser.Gauge:new({
+	name = &quot;tnl_bar&quot;,
+	x=&quot;1%&quot;, y=25,
+	width=&quot;100%&quot;, height=15,
+},damp.gui.bar_container2)
+
+damp.gui.tnl_bar.front:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #aaa , stop: 1 #666 );
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-radius: 2;
+    padding: 1px;]])
+damp.gui.tnl_bar.back:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #666, stop: 1 #333);
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 2;
+    padding: 1px;
+]])
+
+damp.gui.align_bar = Geyser.Gauge:new({
+	name = &quot;align_bar&quot;,
+	x=&quot;1%&quot;, y=45,
+	width=&quot;100%&quot;, height=15,
+},damp.gui.bar_container2)
+
+damp.gui.align_bar.front:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #aeb037  , stop: 1 #4e4f19 );
+    border-top: 1px black solid;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-radius: 2;
+    padding: 1px;]])
+damp.gui.align_bar.back:setStyleSheet([[background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #666, stop: 1 #333);
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 2;
+    padding: 1px;
+]])
+
+setBorderBottom(80)
+
 end
 
 
 </script>
-            <eventHandlerList>
-                <string>sysDataSendRequest</string>
-            </eventHandlerList>
-        </Script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>status_bars</name>
+                <packageName></packageName>
+                <script>function damp.gui:drawStatusBar()
+
+damp.gui.status_bar = Geyser.Container:new({
+	name = &quot;status_bar&quot;,
+	x=0, y=-17,
+	width=&quot;65%&quot;, height=15,
+})
+
+damp.gui.noexp_label = Geyser.Label:new({
+	name = &quot;noexp_label&quot;,
+	x=3, y=0,
+	width=&quot;75&quot;, height=&quot;100%&quot;,
+}, damp.gui.status_bar)
+
+damp.gui.questtimer_label = Geyser.Label:new({
+	name = &quot;questtimer_label&quot;,
+	x=81, y=0,
+	width=&quot;75&quot;, height=&quot;100%&quot;,
+}, damp.gui.status_bar)
+
+end</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>init_gui</name>
+                <packageName></packageName>
+                <script>function init_gui()
+	damp.gui = damp.gui or {}
+
+	sendGMCP(&quot;request quest&quot;)
+	sendGMCP(&quot;request char&quot;)
+	enableTimer(&quot;gmcp_request_quest&quot;)
+
+	send(&quot;P&quot;)
+
+	damp.gui:drawMap()
+	damp.gui:drawCharBars()
+	damp.gui:drawStatusBar()
+	
+	damp.gui.init = true
+	damp.log:info(&quot;Initalized GUI&quot;)
+end</script>
+                <eventHandlerList/>
+            </Script>
+        </ScriptGroup>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>gmcp events</name>
+            <packageName></packageName>
+            <script>
+</script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>onVitals</name>
+                <packageName></packageName>
+                <script>function onVitals()
+
+	if not (damp.gui.init) then return end
+
+	local hp, maxhp = gmcp.char.vitals.hp, gmcp.char.maxstats.maxhp
+	local mp, maxmp = gmcp.char.vitals.mana, gmcp.char.maxstats.maxmana
+	local mv, maxmv = gmcp.char.vitals.moves, gmcp.char.maxstats.maxmoves
+
+
+	local hp_pct = getPercent(hp, maxhp)
+	local mp_pct = tostring(getPercent(mp, maxmp))
+	local mv_pct = tostring(getPercent(mv, maxmv))
+
+	damp.gui.hp_bar:setValue(hp, maxhp,&quot;&lt;b&gt;&quot;..hp..&quot;hp | &quot;..string.format(&quot;%i&quot;, hp_pct)..&quot;%&lt;/b&gt;&quot;)
+	damp.gui.mana_bar:setValue(mp, maxmp,&quot;&lt;b&gt;&quot;..mp..&quot;sp | &quot;..string.format(&quot;%i&quot;, mp_pct)..&quot;%&lt;/b&gt;&quot;)
+	damp.gui.moves_bar:setValue(mv, maxmv,&quot;&lt;b&gt;&quot;..mv..&quot;mv | &quot;..string.format(&quot;%i&quot;, mv_pct)..&quot;%&lt;/b&gt;&quot;)
+
+end
+
+function getPercent(top, bottom)
+	return (tonumber(top)/tonumber(bottom)) * 100
+end</script>
+                <eventHandlerList>
+                    <string>gmcp.char.vitals</string>
+                    <string>gmcp.char.maxstats</string>
+                </eventHandlerList>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>onQuest</name>
+                <packageName></packageName>
+                <script>
+function onQuest()
+	if not (damp.gui.init) then return end
+
+	if (gmcp.comm.quest.wait) then
+		damp.gui.questtimer_label:echo(&quot;&lt;center&gt;Q: &quot;..gmcp.comm.quest.wait..&quot;m&lt;/center&gt;&quot;)	
+		damp.gui.questtimer_label:setColor(100,100,100)	
+	elseif (gmcp.comm.quest.status == &quot;ready&quot;) then
+		damp.gui.questtimer_label:echo(&quot;&lt;center&gt;Quest!&lt;/center&gt;&quot;)
+		damp.gui.questtimer_label:setColor(0,150,0)
+		--disableTimer(&quot;gmcp_request_quest&quot;)
+	elseif (gmcp.comm.quest.action == &quot;start&quot; or gmcp.comm.quest.action == &quot;status&quot;) then
+		if (gmcp.comm.quest.timer) then
+			damp.gui.questtimer_label:echo(&quot;&lt;center&gt;Q: &quot;..gmcp.comm.quest.timer..&quot;m&lt;/center&gt;&quot;)
+			damp.gui.questtimer_label:setColor(150,0,0)
+		elseif (gmcp.comm.quest.time) then
+			damp.gui.questtimer_label:echo(&quot;&lt;center&gt;Q: &quot;..gmcp.comm.quest.time..&quot;m&lt;/center&gt;&quot;)
+			damp.gui.questtimer_label:setColor(150, 150, 0)
+		end
+	end
+end
+</script>
+                <eventHandlerList>
+                    <string>gmcp.comm.quest</string>
+                </eventHandlerList>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>onStatus</name>
+                <packageName></packageName>
+                <script>function onStatus()
+	if not (damp.gui.init) then return end
+
+	local enemy_name, enemy_pct = gmcp.char.status.enemy, gmcp.char.status.enemypct or 0
+	local tnl = gmcp.char.status.tnl
+	local align = gmcp.char.status.align
+
+	damp.gui.enemy_bar:setValue(enemy_pct, 100, &quot;&lt;b&gt;&quot;..enemy_name..&quot; | &quot;..string.format(&quot;%i&quot;, enemy_pct)..&quot;%&lt;/b&gt;&quot;)
+	damp.gui.tnl_bar:setValue(1000-tnl, 1000, &quot;&lt;b&gt;TNL: &quot;..tnl..&quot;&lt;/b&gt;&quot;)
+	damp.gui.align_bar:setValue(align+2500, 5000, &quot;&lt;b&gt;Align: &quot;..align..&quot;&lt;/b&gt;&quot;)
+end</script>
+                <eventHandlerList>
+                    <string>gmcp.char.status</string>
+                </eventHandlerList>
+            </Script>
+        </ScriptGroup>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>non-gmcp events</name>
+            <packageName></packageName>
+            <script></script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>onNoexp</name>
+                <packageName></packageName>
+                <script>
+function onNoexp(event, arg)
+	if not (damp.gui.init) then return end
+
+	if (arg == 0) then
+		damp.gui.noexp_label:echo([[&lt;center&gt;EXP&lt;/center&gt;]])
+		damp.gui.noexp_label:setColor(40, 40, 40)
+	elseif (arg == 1) then
+		damp.gui.noexp_label:echo([[&lt;center&gt;NOEXP&lt;/center&gt;]])
+		damp.gui.noexp_label:setColor(225, 0, 0)
+	end
+end
+</script>
+                <eventHandlerList>
+                    <string>noexp</string>
+                </eventHandlerList>
+            </Script>
+        </ScriptGroup>
     </ScriptPackage>
     <KeyPackage>
         <KeyGroup isActive="yes" isFolder="yes">
