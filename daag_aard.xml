@@ -262,6 +262,29 @@ deselect()</script>
                 </regexCodePropertyList>
             </Trigger>
         </TriggerGroup>
+        <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>connect complete</name>
+            <script>raiseEvent(&quot;inGame&quot;)
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+                <string>^Welcome to Aardwolf. May your adventures be mystical, challenging and rewarding.$</string>
+                <string>^############# Reconnecting to Game #############$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+                <integer>1</integer>
+                <integer>1</integer>
+            </regexCodePropertyList>
+        </Trigger>
     </TriggerPackage>
     <TimerPackage/>
     <AliasPackage>
@@ -353,42 +376,81 @@ init_gui()
     </AliasPackage>
     <ActionPackage/>
     <ScriptPackage>
-        <Script isActive="yes" isFolder="no">
-            <name>init</name>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>damp</name>
             <packageName></packageName>
-            <script>function init()
+            <script>damp = damp or {}
+damp.gui = damp.gui or {}
+damp.map = damp.map or {}
+damp.log = damp.log or {}
+</script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>config</name>
+                <packageName></packageName>
+                <script>
+-----------------------
+-- User Config
+-----------------------
 
-  damp = damp or {}
-  damp.log = damp.log or {}
+-- Set this path to where you cloned/downloaded the scripts
+damp.script_path = &quot;d:/dev/github/damp&quot;
 
-  -- Set this path to whereever you cloned/downloaded the scripts!
-  script_path = &quot;d:/dev/github/damp&quot;
+-- Set to true to enable the GUI functionality
+damp.gui.enable = true
 
+-- Set to true to enable the mapping script
+damp.map.enable = true
 
-  -- Initialize logging. Note that debug mode is overly spammy when mapping!
-  dofile(script_path..&quot;/dlog/logger.lua&quot;)
-  damp.log.enableDebug = false
-  damp.command = nil
+-- Turn on debug output. Tends to be pretty spammy.
+damp.log.enableDebug = false</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>dampOnStart</name>
+                <packageName></packageName>
+                <script>function dampOnStart()
+	-- Initialize logging. Note that debug mode is overly spammy when mapping!
+   dofile(damp.script_path..&quot;/dlog/logger.lua&quot;)
 
-  damp.init = true
-  damp.log:info(&quot;Scripts initialized&quot;)
+  	damp.command = nil
+
+  	sendGMCP(&quot;request quest&quot;)
+	sendGMCP(&quot;request char&quot;)
+	enableTimer(&quot;gmcp_request_quest&quot;)
+
+  	if (damp.gui.enable) then damp:init_gui() end
+  	if (damp.map.enable) then damp:init_map() end
+
+	damp.init = true
+  	damp.log:info(&quot;Scripts initialized&quot;)
+
+	if not(demonnic.chat) then
+		damp.log:info(&quot;This package is designed to optionally work with Demonnic's Tabbed Chat plugin&quot;)
+		damp.log:info(&quot;Please visit http://code.google.com/p/mudlet-packages/downloads/list&quot;)
+		damp.log:info(&quot;and download YATCO-2.3.xml (or newer)&quot;)
+		disableTrigger(&quot;chat&quot;)
+	end
 
 end</script>
-            <eventHandlerList/>
-        </Script>
-        <Script isActive="yes" isFolder="no">
-            <name>onSysDataSendRequest</name>
-            <packageName></packageName>
-            <script>function onSysDataSendRequest(event, args)
+                <eventHandlerList>
+                    <string>sysLoadEvent</string>
+                </eventHandlerList>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>onSysDataSendRequest</name>
+                <packageName></packageName>
+                <script>function onSysDataSendRequest(event, args)
   damp.command = args
 end
 
 
 </script>
-            <eventHandlerList>
-                <string>sysDataSendRequest</string>
-            </eventHandlerList>
-        </Script>
+                <eventHandlerList>
+                    <string>sysDataSendRequest</string>
+                </eventHandlerList>
+            </Script>
+        </ScriptGroup>
         <ScriptGroup isActive="yes" isFolder="yes">
             <name>dmap</name>
             <packageName></packageName>
@@ -399,26 +461,19 @@ mudlet.mapper_script = true
             <Script isActive="yes" isFolder="no">
                 <name>init_map</name>
                 <packageName></packageName>
-                <script>function init_map()
-
-  if not (damp.init) then
-		echo(&quot;Please run the 'init' command first!&quot;)
- 		return
-  end
-
-  damp = damp or {}
-  damp.map = damp.map or {}
+                <script>function damp:init_map()
   
   sendGMCP(&quot;rawcolor on&quot;)
   sendGMCP(&quot;request sectors&quot;)
+
   
-  dofile(script_path..&quot;/dmap/gmcp_room.lua&quot;)
-  dofile(script_path..&quot;/dmap/exits.lua&quot;)
-  dofile(script_path..&quot;/dmap/rooms.lua&quot;)
-  dofile(script_path..&quot;/dmap/zones.lua&quot;)
-  dofile(script_path..&quot;/dmap/continents.lua&quot;)
-  dofile(script_path..&quot;/dmap/speedwalk.lua&quot;)
-  tempTimer(2,[[dofile(script_path..&quot;/dmap/sectors.lua&quot;)]])
+  dofile(damp.script_path..&quot;/dmap/gmcp_room.lua&quot;)
+  dofile(damp.script_path..&quot;/dmap/exits.lua&quot;)
+  dofile(damp.script_path..&quot;/dmap/rooms.lua&quot;)
+  dofile(damp.script_path..&quot;/dmap/zones.lua&quot;)
+  dofile(damp.script_path..&quot;/dmap/continents.lua&quot;)
+  dofile(damp.script_path..&quot;/dmap/speedwalk.lua&quot;)
+  --tempTimer(2,[[dofile(damp.script_path..&quot;/dmap/sectors.lua&quot;)]])
 
   damp.map.current_zone = nil
   damp.map.current_room = nil
@@ -427,7 +482,10 @@ mudlet.mapper_script = true
   damp.map.seen_room = nil
   damp.map.terrain = {}
    
-  tempTimer(2,[[damp.map:setCustomColors()]])
+  --tempTimer(4,[[damp.map:setCustomColors()]])
+
+	damp.map.init = true
+	damp.log:info(&quot;Initalized damp mapper&quot;)
   
 end</script>
                 <eventHandlerList/>
@@ -436,6 +494,8 @@ end</script>
                 <name>onRoom</name>
                 <packageName></packageName>
                 <script>function onRoom()
+  if not (damp.map.init) then return end
+		
   damp.map:parseGmcpRoom()
 end</script>
                 <eventHandlerList>
@@ -639,21 +699,16 @@ end</script>
             <Script isActive="yes" isFolder="no">
                 <name>init_gui</name>
                 <packageName></packageName>
-                <script>function init_gui()
-	damp.gui = damp.gui or {}
+                <script>function damp:init_gui()
 
-	sendGMCP(&quot;request quest&quot;)
-	sendGMCP(&quot;request char&quot;)
-	enableTimer(&quot;gmcp_request_quest&quot;)
-
-	send(&quot;P&quot;)
+	--send(&quot;P&quot;)
 
 	damp.gui:drawMap()
 	damp.gui:drawCharBars()
 	damp.gui:drawStatusBar()
 	
 	damp.gui.init = true
-	damp.log:info(&quot;Initalized GUI&quot;)
+	damp.log:info(&quot;Initalized damp GUI&quot;)
 end</script>
                 <eventHandlerList/>
             </Script>
@@ -670,6 +725,9 @@ end</script>
                 <script>function onVitals()
 
 	if not (damp.gui.init) then return end
+
+	-- On startup, char.vitals can come in before maxstats
+	if not (gmcp.char.maxstats) then return end
 
 	local hp, maxhp = gmcp.char.vitals.hp, gmcp.char.maxstats.maxhp
 	local mp, maxmp = gmcp.char.vitals.mana, gmcp.char.maxstats.maxmana
@@ -765,6 +823,32 @@ end
 </script>
                 <eventHandlerList>
                     <string>noexp</string>
+                </eventHandlerList>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>onInGame</name>
+                <packageName></packageName>
+                <script>-- Actions to occur once we are truly 'in' the game. 
+-- Will only fire on first connect/reconnect
+
+function onInGame()
+	local roomSetup = tempTrigger(&quot;[ Exits:&quot;, [[sendGMCP(&quot;request room&quot;) sendGMCP(&quot;request sectors&quot;) damp:roomInit()]])
+
+	send(&quot;P&quot;,false)
+	send(&quot;look&quot;,false)
+
+	
+
+end
+
+function damp:roomInit()
+
+	tempTimer(3, [[dofile(damp.script_path..&quot;/dmap/sectors.lua&quot;)]]) 
+	tempTimer(6, [[damp.map:setCustomColors()]])
+	tempTimer(9, [[killTrigger(&quot;roomSetup&quot;)]])
+end</script>
+                <eventHandlerList>
+                    <string>inGame</string>
                 </eventHandlerList>
             </Script>
         </ScriptGroup>
