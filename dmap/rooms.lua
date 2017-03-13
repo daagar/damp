@@ -47,7 +47,8 @@ function damp.map:createRoom()
     damp.log:debug("Created first map room for id "..room_id)
   else
     damp.map.prior_room = damp.map.current_room
-    damp.log:debug("Attempting to find coords for new room")
+    damp.log:debug("Attempting to find coords for new room....")
+
     local x,y,z = damp.map:getNewCoords(damp.command)
 
     local rooms_at_location = getRoomsByPosition(zone_id, x, y, z)
@@ -73,7 +74,6 @@ function damp.map:createRoom()
 end
 
 function damp.map:getNewCoords(command)
-  
   if not command then
     damp.log:error("No command has been sent - can't find new coords")
     return

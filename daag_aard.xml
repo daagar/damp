@@ -38,6 +38,31 @@ setRoomChar(gmcp.room.info.num, &quot;&gt;&quot;)</script>
                     <integer>1</integer>
                 </regexCodePropertyList>
             </Trigger>
+            <Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>specialExitsTracker</name>
+                <script>toRoom = damp.map.current_room
+
+damp.log:debug(&quot;fromRoom: &quot;..fromRoom)
+damp.log:debug(&quot;toRoom: &quot;..toRoom)
+disableTrigger(&quot;specialExitsTracker&quot;)
+addSpecialExit(fromRoom, toRoom, specialExitCommand) </script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^\[ Exits:.* \]$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
         </TriggerGroup>
         <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
             <name>chat</name>
@@ -233,7 +258,7 @@ deselect()</script>
                 <regexCodeList>
                     <string>^You will no longer receive experience. Happy questing!$</string>
                     <string>^You have set your character to receive no experience points!$</string>
-                    <string>&gt; \*\[NOEXP\]\*</string>
+                    <string>&gt;\*\[NOEXP\]\*</string>
                 </regexCodeList>
                 <regexCodePropertyList>
                     <integer>1</integer>
@@ -290,7 +315,7 @@ deselect()</script>
     <AliasPackage>
         <Alias isActive="yes" isFolder="no">
             <name>initialize damp</name>
-            <script>init()</script>
+            <script>dampOnStart()</script>
             <command></command>
             <packageName></packageName>
             <regex>^damp$</regex>
@@ -302,15 +327,9 @@ deselect()</script>
             <packageName></packageName>
             <regex></regex>
             <Alias isActive="yes" isFolder="no">
-                <name>Map Init</name>
-                <script>
-if not system_init then
-  init()
-end
-
-init_map()
-send(&quot;look&quot;, false)
-damp.log:info(&quot;Initalized Mapper&quot;)</script>
+                <name>Reinit Map</name>
+                <script>-- Reinitalize the map
+damp.init_map()</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^dmap$</regex>
@@ -327,14 +346,18 @@ damp.map.prior_room = nil
             </Alias>
             <Alias isActive="yes" isFolder="no">
                 <name>dmzones</name>
-                <script>display(getAreaTable())</script>
+                <script>-- Show all visted zones (as far as the mapper knows)
+display(getAreaTable())</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^dmzones$</regex>
             </Alias>
             <Alias isActive="yes" isFolder="no">
                 <name>add door</name>
-                <script>local status
+                <script>-- Add a door visually to the map in the direction indicated, with the status
+-- Ex., &quot;]w closed&quot; for a closed door to the west
+
+local status
 if (matches[3] == &quot;open&quot;) then status = 1
 elseif (matches[3] == &quot;closed&quot;) then status = 2
 elseif (matches[3] == &quot;locked&quot;) then status = 3
@@ -351,6 +374,36 @@ setDoor(damp.map.current_room, matches[2], status)</script>
                 <command></command>
                 <packageName></packageName>
                 <regex>^\[(.?)$</regex>
+            </Alias>
+            <Alias isActive="no" isFolder="no">
+                <name>link rooms</name>
+                <script>-- Given a direction, link the current room to the room is noted direction
+connectExitStub(damp.map.current_room, matches[2])
+centerview()</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^\.\.(\w)$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>Create Special Exit</name>
+                <script>-- Create a special exit with the command given. For example,
+-- &gt;climb rope
+
+-- Be sure to use 'long' directions when using this alias for doors!
+-- Ex., &gt;open north, north
+
+
+specialExitCommand = string.gsub(matches[2], &quot;,&quot;, &quot;;&quot;)
+
+fromRoom = damp.map.current_room
+enableTrigger(&quot;specialExitsTracker&quot;)
+send(specialExitCommand)
+
+
+ </script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^&gt;(.*)$</regex>
             </Alias>
         </AliasGroup>
         <AliasGroup isActive="yes" isFolder="yes">
@@ -442,6 +495,24 @@ end</script>
                 <packageName></packageName>
                 <script>function onSysDataSendRequest(event, args)
   damp.command = args
+
+if (table.contains(damp.CARDINAL_EXITS_SHORT, damp.command)) then
+for k,v in pairs(getSpecialExitsSwap(damp.map.current_room)) do 
+  for key, value in pairs(getRoomExits(damp.map.current_room)) do
+		if v == value and key == damp.CARDINAL_EXITS_EXPAND[damp.command] then 
+			damp.log:debug(&quot;Found special exit to follow&quot;)
+			--damp.special_move = true
+			gotoRoom(v) 
+		   denyCurrentSend()
+			--damp.command = &quot;&quot;
+			return
+		end
+	end
+end
+--damp.log:debug(damp.command)
+--send(&quot;west&quot;, false)
+end
+
 end
 
 
@@ -464,8 +535,6 @@ mudlet.mapper_script = true
                 <script>function damp:init_map()
   
   sendGMCP(&quot;rawcolor on&quot;)
-  sendGMCP(&quot;request sectors&quot;)
-
   
   dofile(damp.script_path..&quot;/dmap/gmcp_room.lua&quot;)
   dofile(damp.script_path..&quot;/dmap/exits.lua&quot;)
@@ -473,19 +542,17 @@ mudlet.mapper_script = true
   dofile(damp.script_path..&quot;/dmap/zones.lua&quot;)
   dofile(damp.script_path..&quot;/dmap/continents.lua&quot;)
   dofile(damp.script_path..&quot;/dmap/speedwalk.lua&quot;)
-  --tempTimer(2,[[dofile(damp.script_path..&quot;/dmap/sectors.lua&quot;)]])
-
+  
   damp.map.current_zone = nil
   damp.map.current_room = nil
   damp.map.prior_room = nil
   damp.map.prior_room_data = {}
   damp.map.seen_room = nil
   damp.map.terrain = {}
-   
-  --tempTimer(4,[[damp.map:setCustomColors()]])
-
-	damp.map.init = true
-	damp.log:info(&quot;Initalized damp mapper&quot;)
+  damp.map.sectors = nil
+  
+  damp.map.init = true
+  damp.log:info(&quot;Initalized damp mapper&quot;)
   
 end</script>
                 <eventHandlerList/>
@@ -495,7 +562,12 @@ end</script>
                 <packageName></packageName>
                 <script>function onRoom()
   if not (damp.map.init) then return end
-		
+
+  if (damp.special_move) then 
+	damp.special_move = false
+	return 
+  end
+  damp.log:debug(&quot;Parsing room&quot;)
   damp.map:parseGmcpRoom()
 end</script>
                 <eventHandlerList>
@@ -799,6 +871,22 @@ end</script>
                     <string>gmcp.char.status</string>
                 </eventHandlerList>
             </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>onSectors</name>
+                <packageName></packageName>
+                <script>function onSectors()
+  if(damp.map.sectors) then return end
+
+  dofile(damp.script_path..&quot;/dmap/sectors.lua&quot;)
+  damp.map:setCustomColors()
+  damp.map.sectors = true
+
+end
+</script>
+                <eventHandlerList>
+                    <string>gmcp.room.sectors</string>
+                </eventHandlerList>
+            </Script>
         </ScriptGroup>
         <ScriptGroup isActive="yes" isFolder="yes">
             <name>non-gmcp events</name>
@@ -832,21 +920,20 @@ end
 -- Will only fire on first connect/reconnect
 
 function onInGame()
-	local roomSetup = tempTrigger(&quot;[ Exits:&quot;, [[sendGMCP(&quot;request room&quot;) sendGMCP(&quot;request sectors&quot;) damp:roomInit()]])
+	--local roomSetup = tempTrigger(&quot;[ Exits:&quot;, [[sendGMCP(&quot;request room&quot;) sendGMCP(&quot;request sectors&quot;) damp:roomInit()]])
 
+	-- Need to be fully in-game before getting room/sector info
+	sendGMCP(&quot;request room&quot;)
+	sendGMCP(&quot;request sectors&quot;)
+
+	-- Force a prompt to display to init various prompt-based flags
 	send(&quot;P&quot;,false)
-	send(&quot;look&quot;,false)
+	--send(&quot;look&quot;,false)
 
 	
 
 end
-
-function damp:roomInit()
-
-	tempTimer(3, [[dofile(damp.script_path..&quot;/dmap/sectors.lua&quot;)]]) 
-	tempTimer(6, [[damp.map:setCustomColors()]])
-	tempTimer(9, [[killTrigger(&quot;roomSetup&quot;)]])
-end</script>
+</script>
                 <eventHandlerList>
                     <string>inGame</string>
                 </eventHandlerList>

@@ -6,6 +6,8 @@ damp.CARDINAL_EXITS_SHORT = {"n", "ne", "nw", "e", "w", "s", "se", "sw", "u", "d
 
 damp.CARDINAL_EXITS_SHRINK = {north = "n", south = "s", east = "e", west = "w", northeast = "ne", northwest = "nw", southeast = "se", southwest = "sw", up = "u", down = "d"}
 
+damp.CARDINAL_EXITS_EXPAND = {n = "north", s = "south", e = "east", w = "west", ne = "northeast", nw = "northwest", se = "southeast", sw = "southwest", u = "up", d = "down"}
+
 function damp.map:getExitNum(dir)
   if not damp.map:isCardinalExit(dir) then
     damp.log:error("Can't get an exit number for a non-cardinal direction!")
@@ -35,7 +37,8 @@ function damp.map:getShortExit(command)
   if table.contains(damp.CARDINAL_EXITS_SHORT, command) then
     return command
   elseif table.contains(damp.CARDINAL_EXITS_LONG, command) then
-    return damp.CARDNAL_EXITS_SHRINK[command]
+    
+    return damp.CARDINAL_EXITS_SHRINK[command]
   end
 end
 
@@ -69,7 +72,7 @@ function damp.map:connectSpecialExits()
     and damp.command ~= "l" 
     and damp.command ~= "look" 
     and damp.command ~= "recall" then
-    damp.log:debug("Saw special exit command, linking to prior room")
+    damp.log:debug("Saw special exit command ("..damp.command.."), linking to prior room")
 
     local special_exits = getSpecialExits(gmcp.room.info.num)
     if not table.contains(special_exits, damp.command) then
