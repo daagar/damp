@@ -12,4 +12,4 @@ Please see the [wiki][] for details.
 [wiki]: https://github.com/daagar/damp/wiki
 
 **NOTE**: 
-As you can clearly see, this repo doesn't get much love. Want to see where this project could have gone? Checkout the most excellent looking https://github.com/xekon/AardwolfMudlet! 
+As you can clearly see, this repo doesn't get much love. Want to see where this project could have gone? Checkout the most excellent looking https://github.com/jieiku/AardwolfMudlet! 
